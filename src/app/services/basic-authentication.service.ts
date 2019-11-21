@@ -2,6 +2,10 @@ import { Injectable } from '@angular/core';
 import { HttpHeaders } from '@angular/common/http';
 import { HttpClient } from '@angular/common/http';
 import {map} from 'rxjs/operators';
+import { API_URL } from '../app.constant';
+
+export const TOKEN = 'token'
+export const AUTHENTICATED_USER = 'authenticatedUser'
 
 @Injectable({
   providedIn: 'root'
@@ -10,14 +14,6 @@ export class BasicAuthenticationService {
 
   constructor(private http: HttpClient) { }
 
-  authenticate(username, password) {
-    if (username === "akash" && password === "pass") {
-      sessionStorage.setItem('authenticatedUser', username)
-      return true;
-    } else {
-      return false;
-    }
-  }
 
   executeAuthenticationService(username, password) {
     // console.log(this.http.get("http://localhost:8080/basicauth"));
@@ -25,17 +21,26 @@ export class BasicAuthenticationService {
     let headers = new HttpHeaders({
       Authorization: basicAuthHeader
     })
-    return this.http.get<AuthenticationBean>(`http://localhost:8080/basicauth`, {
+    return this.http.get<AuthenticationBean>(`${API_URL}/basicauth`, {
       headers
     }).pipe(
       map(
         data => {
-          sessionStorage.setItem('authenticatedUser', username)
+          sessionStorage.setItem(TOKEN, username)
+          sessionStorage.setItem(AUTHENTICATED_USER, basicAuthHeader)
           return data;
         }
       )
     );
   }
+
+getAuthenticatedUser(){
+  return sessionStorage.getItem('authenticatedUser')
+}
+
+getAuthenticatedToken(){
+  return sessionStorage.getItem('token')
+}
 
   createBasicAuthenticationHeader() {
     let username = 'user'

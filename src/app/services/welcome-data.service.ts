@@ -19,20 +19,20 @@ export class WelcomeDataService {
 
   executeHelloWorldBeanServicePath(name){
     // console.log(this.http.get("http://localhost:8080/helloWorldBean"));
-    let basicAuthHeaderString = this.createBasicAuthenticationHeader();
+    // let basicAuthHeaderString = this.createBasicAuthenticationHeader();
 
-    let headers = new HttpHeaders({
-      Authorization: basicAuthHeaderString
-    })
+    // let headers = new HttpHeaders({
+    //   Authorization: basicAuthHeaderString
+    // })
     return this.http.get<HelloWorldBean>(`http://localhost:8080/helloWorldBean/${name}`,{
-      headers
+      // headers
     });
   }
 
-  createBasicAuthenticationHeader(){
-    let username = 'user'
-    let password = 'password'
-    let basicAuthHeader = 'Basic ' + window.btoa(username +':'+password)
-    return basicAuthHeader;
-  }
+  // createBasicAuthenticationHeader(){
+  //   let username = 'user'
+  //   let password = 'password'
+  //   let basicAuthHeader = 'Basic ' + window.btoa(username +':'+password)
+  //   return basicAuthHeader;
+  // }
 }
